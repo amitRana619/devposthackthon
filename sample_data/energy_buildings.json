@@ -1,0 +1,36 @@
+[
+  {
+    "building_id": "bldg-medtech-hq",
+    "name": "MedTech HQ",
+    "tenant_id": "tenant-medtech",
+    "business_type": "B2B medical device operations",
+    "hvac_zones": ["lobby", "office-east", "lab-cleanroom", "server-room"],
+    "critical_zones": ["lab-cleanroom", "server-room"],
+    "flexible_loads": [
+      {
+        "load_id": "cafeteria-cooling",
+        "description": "Non-critical cafeteria precooling and air handling",
+        "zones": ["cafeteria"],
+        "max_shed_kw": 10
+      },
+      {
+        "load_id": "conference-preconditioning",
+        "description": "Conference room thermal preconditioning",
+        "zones": ["conference"],
+        "max_shed_kw": 18
+      },
+      {
+        "load_id": "ev-chargers",
+        "description": "Managed employee EV charging bank",
+        "zones": ["parking"],
+        "max_shed_kw": 20
+      }
+    ],
+    "normal_setpoint_c": 23.0,
+    "max_safe_setpoint_c": 25.0,
+    "min_safe_setpoint_c": 19.0,
+    "business_value_at_risk_usd_per_hour": 18000,
+    "business_risk_protection_factor": 0.5,
+    "critical_zone_policy": "Cleanroom and server-room HVAC cannot be relaxed during HeatRisk level 3+ events while occupied."
+  }
+]

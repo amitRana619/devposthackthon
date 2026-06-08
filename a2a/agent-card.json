@@ -1,0 +1,45 @@
+{
+  "name": "energy_ops_agent",
+  "url": "https://ENERGY_OPS_AGENT_URL.example.com",
+  "description": "B2B building energy optimization agent that coordinates weather grounding, utility pricing analysis, comfort-safety conflict resolution, and governed load-shedding actions.",
+  "version": "0.2.0",
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": false,
+    "stateTransitionHistory": true,
+    "extensions": [
+      {
+        "uri": "https://google.github.io/adk-docs/a2a/a2a-extension/",
+        "description": "ADK A2A executor extension for improved message and data handling.",
+        "required": false
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "extreme_weather_energy_optimization",
+      "name": "Extreme Weather Energy Optimization",
+      "description": "Resolve occupant comfort, safety, and utility peak-demand pricing conflicts using grounded building, weather, pricing, and occupancy data.",
+      "tags": ["b2b", "energy", "weather", "demand-response", "optimization"],
+      "examples": [
+        "Optimize MedTech HQ during the heat dome and peak-demand surge."
+      ],
+      "inputModes": ["text/plain"],
+      "outputModes": ["text/plain"]
+    },
+    {
+      "id": "energy_simulation_observability",
+      "name": "Energy Simulation Observability",
+      "description": "Run synthetic rare-event simulations and return trace steps for conflict-resolution debugging.",
+      "tags": ["simulation", "observability", "agent-optimizer", "trace"],
+      "examples": [
+        "Run the heat-dome peak-pricing simulation and show the trace."
+      ],
+      "inputModes": ["text/plain"],
+      "outputModes": ["text/plain"]
+    }
+  ],
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain"],
+  "supportsAuthenticatedExtendedCard": false
+}

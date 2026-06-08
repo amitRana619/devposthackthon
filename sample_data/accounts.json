@@ -1,0 +1,23 @@
+[
+  {
+    "account_id": "acme-robotics",
+    "name": "Acme Robotics",
+    "owner_id": "founder-001",
+    "health_score": 58,
+    "arr_usd": 84000,
+    "renewal_date": "2026-07-20",
+    "region": "AMERS",
+    "plan": "Scale"
+  },
+  {
+    "account_id": "northstar-clinic",
+    "name": "Northstar Clinic",
+    "owner_id": "operator-002",
+    "health_score": 86,
+    "arr_usd": 36000,
+    "renewal_date": "2026-11-15",
+    "region": "EMEA",
+    "plan": "Team"
+  }
+]
+

@@ -1,0 +1,27 @@
+[
+  {
+    "interaction_id": "int-acme-qbr",
+    "account_id": "acme-robotics",
+    "occurred_at": "2026-05-25T15:30:00Z",
+    "channel": "qbr",
+    "sentiment": "negative",
+    "summary": "Champion said implementation delays are reducing confidence before renewal."
+  },
+  {
+    "interaction_id": "int-acme-product",
+    "account_id": "acme-robotics",
+    "occurred_at": "2026-05-18T10:00:00Z",
+    "channel": "product-call",
+    "sentiment": "neutral",
+    "summary": "Customer requested clearer rollout dates for integration fixes."
+  },
+  {
+    "interaction_id": "int-northstar-checkin",
+    "account_id": "northstar-clinic",
+    "occurred_at": "2026-05-29T11:45:00Z",
+    "channel": "customer-success",
+    "sentiment": "positive",
+    "summary": "Customer reported strong adoption across two clinic locations."
+  }
+]
+

@@ -1,0 +1,21 @@
+{
+  "name": "energy-ops-agent",
+  "display_name": "Energy Ops Agent",
+  "description": "Optimizes B2B building energy decisions during extreme weather and utility peak-demand pricing conflicts using grounded building, weather, pricing, and occupancy context.",
+  "runtime": {
+    "type": "a2a_on_cloud_run_or_agent_engine",
+    "agent_card_endpoint": "/.well-known/agent-card.json",
+    "primary_endpoint": "/"
+  },
+  "invocation_examples": [
+    "Optimize MedTech HQ during the heat dome and peak-demand surge.",
+    "Run the rare-event simulation and summarize the observability trace.",
+    "Explain which non-critical flexible loads should be shed before changing critical-zone HVAC."
+  ],
+  "governance": {
+    "source_backed_answers": true,
+    "deterministic_safety_gate": true,
+    "approval_required_for_external_side_effects": true,
+    "observability_trace_required": true
+  }
+}

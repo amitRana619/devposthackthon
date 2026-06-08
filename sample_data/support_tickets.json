@@ -1,0 +1,27 @@
+[
+  {
+    "ticket_id": "sup-acme-sso",
+    "account_id": "acme-robotics",
+    "severity": "critical",
+    "status": "open",
+    "opened_at": "2026-05-22T09:15:00Z",
+    "title": "SSO outage blocks warehouse supervisors"
+  },
+  {
+    "ticket_id": "sup-acme-export",
+    "account_id": "acme-robotics",
+    "severity": "medium",
+    "status": "pending_customer",
+    "opened_at": "2026-05-27T13:05:00Z",
+    "title": "CSV export column mismatch"
+  },
+  {
+    "ticket_id": "sup-northstar-report",
+    "account_id": "northstar-clinic",
+    "severity": "low",
+    "status": "resolved",
+    "opened_at": "2026-05-20T08:00:00Z",
+    "title": "Monthly report labels"
+  }
+]
+

@@ -1,0 +1,22 @@
+solution:
+  name: energy-ops-agent
+  version: 0.1.0
+  category: AI Agents
+  summary: ADK and MCP B2B building energy optimization agent.
+  buyer: Facilities, energy operations, and building management teams.
+  deployment:
+    target: Google Cloud Run or Gemini Enterprise Agent Platform Agent Engine
+    container_port: 8080
+    health_check: /.well-known/agent-card.json
+    communication_protocol: A2A
+  security:
+    secrets: Google API keys must be supplied through Secret Manager or runtime env.
+    permissions: Runtime service account should use least privilege for connected tools.
+    data_isolation: Tool adapters must scope access by tenant, building, and source system.
+  enterprise:
+    gemini_enterprise_ready: true
+    mcp_tools: true
+    a2a_interoperability: true
+    adk_multi_agent_orchestration: true
+    observability_traces: true
+    human_approval_boundary: true

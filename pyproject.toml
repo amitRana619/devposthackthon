@@ -1,0 +1,38 @@
+[project]
+name = "startup-ops-agent"
+version = "0.1.0"
+description = "Google ADK B2B energy optimization agent for the Google for Startups AI Agents Challenge."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.111.0",
+    "google-adk[a2a]>=2.1.0",
+    "mcp>=1.27.2",
+    "pydantic>=2.8.0",
+    "python-dotenv>=1.0.1",
+    "structlog>=24.2.0",
+    "uvicorn[standard]>=0.30.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "ruff>=0.5.0",
+]
+cloud = [
+    "google-cloud-aiplatform[agent_engines,adk]>=1.120.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.setuptools.packages.find]
+include = ["startup_ops_agent*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

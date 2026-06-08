@@ -1,0 +1,21 @@
+[
+  {
+    "opportunity_id": "opp-acme-expansion",
+    "account_id": "acme-robotics",
+    "name": "Warehouse automation expansion",
+    "stage": "Proposal",
+    "amount_usd": 42000,
+    "close_date": "2026-06-28",
+    "last_activity_date": "2026-05-10"
+  },
+  {
+    "opportunity_id": "opp-northstar-addon",
+    "account_id": "northstar-clinic",
+    "name": "Clinical scheduling add-on",
+    "stage": "Discovery",
+    "amount_usd": 12000,
+    "close_date": "2026-08-31",
+    "last_activity_date": "2026-05-30"
+  }
+]
+

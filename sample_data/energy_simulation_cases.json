@@ -1,0 +1,29 @@
+[
+  {
+    "case_id": "normal-day-standard-price",
+    "building_id": "bldg-medtech-hq",
+    "weather_event_id": "weather-normal",
+    "pricing_event_id": "pricing-standard",
+    "occupancy_id": "occupancy-low",
+    "expected_primary_priority": "resilience",
+    "expected_conflict": false
+  },
+  {
+    "case_id": "normal-day-peak-price",
+    "building_id": "bldg-medtech-hq",
+    "weather_event_id": "weather-normal",
+    "pricing_event_id": "pricing-peak-surge",
+    "occupancy_id": "occupancy-low",
+    "expected_primary_priority": "cost",
+    "expected_conflict": false
+  },
+  {
+    "case_id": "heat-dome-peak-price-critical-occupancy",
+    "building_id": "bldg-medtech-hq",
+    "weather_event_id": "weather-heat-dome",
+    "pricing_event_id": "pricing-peak-surge",
+    "occupancy_id": "occupancy-business-critical",
+    "expected_primary_priority": "safety",
+    "expected_conflict": true
+  }
+]

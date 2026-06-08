@@ -1,0 +1,22 @@
+[
+  {
+    "pricing_event_id": "pricing-standard",
+    "provider": "GridCo",
+    "starts_at": "2026-06-08T12:00:00Z",
+    "ends_at": "2026-06-08T18:00:00Z",
+    "price_multiplier": 1.1,
+    "demand_response_requested_kw": 0,
+    "demand_charge_usd_per_kw": 18,
+    "source": "synthetic-utility-standard"
+  },
+  {
+    "pricing_event_id": "pricing-peak-surge",
+    "provider": "GridCo",
+    "starts_at": "2026-06-08T14:00:00Z",
+    "ends_at": "2026-06-08T18:00:00Z",
+    "price_multiplier": 3.8,
+    "demand_response_requested_kw": 48,
+    "demand_charge_usd_per_kw": 42,
+    "source": "synthetic-utility-surge"
+  }
+]

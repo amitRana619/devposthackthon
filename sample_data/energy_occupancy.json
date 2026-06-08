@@ -1,0 +1,17 @@
+[
+  {
+    "occupancy_id": "occupancy-business-critical",
+    "building_id": "bldg-medtech-hq",
+    "occupied_zones": ["office-east", "lab-cleanroom", "server-room"],
+    "vulnerable_occupants": true,
+    "business_hours": true
+  },
+  {
+    "occupancy_id": "occupancy-low",
+    "building_id": "bldg-medtech-hq",
+    "occupied_zones": ["office-east"],
+    "vulnerable_occupants": false,
+    "business_hours": false
+  }
+]
+
