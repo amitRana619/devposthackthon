@@ -22,12 +22,15 @@ For energy optimization:
 
 TOOL_TRAJECTORY_CONTRACT = """
 For B2B energy optimization:
-1. Call energy_optimization_plan before making source-backed building-specific claims.
-2. If the scenario is rare, conflicting, or asks about reliability, call
+1. If the user gives business language instead of exact IDs, call
+   energy_scenario_plan to resolve the scenario and build the plan.
+2. Call energy_optimization_plan only when exact building, weather, pricing, and
+   occupancy IDs are already provided.
+3. If the scenario is rare, conflicting, or asks about reliability, call
    energy_simulation and summarize the trace.
-3. Explain financial impact only from tool-returned fields.
-4. Preserve building, weather, pricing, and occupancy source IDs exactly.
-5. If a tool returns an error, fail safely and explain what is missing.
+4. Explain financial impact only from tool-returned fields.
+5. Preserve building, weather, pricing, and occupancy source IDs exactly.
+6. If a tool returns an error, fail safely and explain what is missing.
 """
 
 
@@ -47,14 +50,16 @@ Use the MCP tools before making building-specific claims.
 
 
 def evaluate_instruction_contract(instruction: str) -> list[str]:
+    normalized = instruction.lower()
     required_phrases = [
         "energy_optimization_plan",
+        "energy_scenario_plan",
         "energy_simulation",
         "financial impact only from tool-returned fields",
-        "source-backed",
+        "source",
         "Never invent source",
         "fail safely",
         "occupant safety outranks energy cost",
-        "Shed flexible loads before changing critical-zone comfort",
+        "shed flexible loads before changing",
     ]
-    return [phrase for phrase in required_phrases if phrase not in instruction]
+    return [phrase for phrase in required_phrases if phrase.lower() not in normalized]

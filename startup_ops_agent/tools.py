@@ -102,6 +102,20 @@ def build_energy_optimization_plan(
         return {"status": "error", "error_type": exc.__class__.__name__, "message": str(exc)}
 
 
+def build_energy_plan_from_scenario(scenario: str) -> dict:
+    """Resolve a natural-language B2B energy scenario and build a source-backed plan."""
+    try:
+        result = _energy_service().build_plan_from_scenario(scenario)
+        return {
+            "status": "success",
+            "resolved_inputs": result["resolved_inputs"],
+            "resolution_notes": result["resolution_notes"],
+            "plan": result["plan"].model_dump(mode="json"),
+        }
+    except (DataAccessError, NotFoundError, ValueError) as exc:
+        return {"status": "error", "error_type": exc.__class__.__name__, "message": str(exc)}
+
+
 def run_energy_simulation(case_id: str) -> dict:
     """Run a synthetic Track 2 simulation case and return the observability trace."""
     try:

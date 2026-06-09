@@ -65,6 +65,15 @@ Do not commit real keys.
 
 ## Run The Optimized Energy Plan
 
+Natural-language scenario resolver:
+
+```powershell
+python -m startup_ops_agent.cli energy-scenario `
+  --scenario "Optimize MedTech HQ during the heat dome and peak-demand surge. Prioritize critical occupants and show the observability trace."
+```
+
+Exact IDs:
+
 ```powershell
 python -m startup_ops_agent.cli energy-plan `
   --building bldg-medtech-hq `

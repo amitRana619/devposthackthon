@@ -7,6 +7,7 @@ from startup_ops_agent.config import default_data_dir
 from startup_ops_agent.tools import (
     build_account_brief,
     build_energy_optimization_plan,
+    build_energy_plan_from_scenario,
     create_task_draft,
     explain_operating_policy,
     run_energy_simulation,
@@ -68,6 +69,23 @@ def test_energy_plan_tool_handles_extreme_weather_peak_pricing(tmp_path: Path, m
     )
 
     assert result["status"] == "success"
+    assert result["plan"]["primary_priority"] == "safety"
+
+
+def test_energy_scenario_tool_resolves_demo_prompt(tmp_path: Path, monkeypatch) -> None:
+    data_dir = _copy_data_dir(tmp_path)
+    monkeypatch.setenv("STARTUP_OPS_DATA_DIR", str(data_dir))
+
+    result = build_energy_plan_from_scenario(
+        "Optimize MedTech HQ during the heat dome and peak-demand surge. "
+        "Prioritize critical occupants and show the observability trace."
+    )
+
+    assert result["status"] == "success"
+    assert result["resolved_inputs"]["building_id"] == "bldg-medtech-hq"
+    assert result["resolved_inputs"]["weather_event_id"] == "weather-heat-dome"
+    assert result["resolved_inputs"]["pricing_event_id"] == "pricing-peak-surge"
+    assert result["resolved_inputs"]["occupancy_id"] == "occupancy-business-critical"
     assert result["plan"]["primary_priority"] == "safety"
 
 

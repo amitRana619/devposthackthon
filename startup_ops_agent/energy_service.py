@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 
 from startup_ops_agent.energy_models import (
     BuildingProfile,
@@ -21,6 +22,10 @@ from startup_ops_agent.service import NotFoundError
 
 def _stable_id(*parts: str) -> str:
     return hashlib.sha256("|".join(parts).encode("utf-8")).hexdigest()[:16]
+
+
+def _tokens(value: str) -> set[str]:
+    return {token for token in re.split(r"[^a-z0-9]+", value.lower()) if token}
 
 
 class EnergyOptimizationService:
@@ -104,6 +109,39 @@ class EnergyOptimizationService:
             source_ids=source_ids,
         )
 
+    def build_plan_from_scenario(self, scenario: str) -> dict[str, object]:
+        building = self._resolve_building(scenario)
+        weather = self._resolve_weather(scenario)
+        pricing = self._resolve_pricing(scenario)
+        occupancy = self._resolve_occupancy(scenario, building)
+        plan = self.build_optimization_plan(
+            building_id=building.building_id,
+            weather_event_id=weather.event_id,
+            pricing_event_id=pricing.pricing_event_id,
+            occupancy_id=occupancy.occupancy_id,
+        )
+        return {
+            "resolved_inputs": {
+                "building_id": building.building_id,
+                "weather_event_id": weather.event_id,
+                "pricing_event_id": pricing.pricing_event_id,
+                "occupancy_id": occupancy.occupancy_id,
+            },
+            "resolution_notes": [
+                f"Matched building '{building.name}' from available building records.",
+                f"Selected weather event '{weather.event_id}' for the requested weather risk.",
+                (
+                    f"Selected pricing event '{pricing.pricing_event_id}' for the "
+                    "requested utility pricing risk."
+                ),
+                (
+                    f"Selected occupancy profile '{occupancy.occupancy_id}' for "
+                    "critical/vulnerable occupancy."
+                ),
+            ],
+            "plan": plan,
+        }
+
     def run_simulation_case(self, case_id: str) -> SimulationResult:
         case = self._case(case_id)
         trace = [
@@ -177,6 +215,79 @@ class EnergyOptimizationService:
 
     def _case(self, case_id: str):
         return self._load_by_id(self.repository.simulation_cases(), "case_id", case_id)
+
+    def _resolve_building(self, scenario: str) -> BuildingProfile:
+        scenario_tokens = _tokens(scenario)
+        scored = []
+        for building in self.repository.buildings():
+            searchable = f"{building.building_id} {building.name} {building.business_type}"
+            score = len(scenario_tokens.intersection(_tokens(searchable)))
+            scored.append((score, building.name, building))
+        score, _, building = max(scored, key=lambda item: (item[0], item[1]))
+        if score == 0:
+            raise NotFoundError("Could not resolve a building from the scenario.")
+        return building
+
+    def _resolve_weather(self, scenario: str) -> WeatherEvent:
+        scenario_tokens = _tokens(scenario)
+        wants_extreme = bool(
+            scenario_tokens.intersection({"extreme", "heat", "dome", "wave", "storm"})
+        )
+        candidates = self.repository.weather_events()
+        if wants_extreme:
+            return max(candidates, key=lambda item: (item.heat_risk_level, item.severity))
+        return min(candidates, key=lambda item: (item.heat_risk_level, item.outdoor_temp_c))
+
+    def _resolve_pricing(self, scenario: str) -> UtilityPricingEvent:
+        scenario_tokens = _tokens(scenario)
+        wants_peak = bool(
+            scenario_tokens.intersection({"peak", "surge", "demand", "pricing", "price"})
+        )
+        candidates = self.repository.pricing_events()
+        if wants_peak:
+            return max(
+                candidates,
+                key=lambda item: (item.demand_response_requested_kw, item.price_multiplier),
+            )
+        return min(
+            candidates,
+            key=lambda item: (item.price_multiplier, item.demand_charge_usd_per_kw),
+        )
+
+    def _resolve_occupancy(
+        self,
+        scenario: str,
+        building: BuildingProfile,
+    ) -> OccupancyProfile:
+        scenario_tokens = _tokens(scenario)
+        wants_critical = bool(
+            scenario_tokens.intersection({"critical", "vulnerable", "occupant", "occupants"})
+        )
+        profiles = [
+            occupancy
+            for occupancy in self.repository.occupancy_profiles()
+            if occupancy.building_id == building.building_id
+        ]
+        if not profiles:
+            raise NotFoundError(f"No occupancy profiles found for building: {building.building_id}")
+        critical_zones = set(building.critical_zones)
+        if wants_critical:
+            return max(
+                profiles,
+                key=lambda item: (
+                    item.vulnerable_occupants,
+                    len(critical_zones.intersection(item.occupied_zones)),
+                    item.business_hours,
+                ),
+            )
+        return min(
+            profiles,
+            key=lambda item: (
+                item.vulnerable_occupants,
+                len(critical_zones.intersection(item.occupied_zones)),
+                item.business_hours,
+            ),
+        )
 
     def _load_shed_decisions(
         self,

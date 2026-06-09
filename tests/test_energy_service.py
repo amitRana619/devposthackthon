@@ -30,6 +30,23 @@ def test_extreme_weather_and_peak_pricing_prioritizes_safety() -> None:
     assert "weather-heat-dome" in plan.source_ids
 
 
+def test_scenario_resolver_builds_heat_dome_peak_surge_plan() -> None:
+    service = EnergyOptimizationService(EnergyJsonRepository(default_data_dir()))
+
+    result = service.build_plan_from_scenario(
+        "Optimize MedTech HQ during the heat dome and peak-demand surge. "
+        "Prioritize critical occupants."
+    )
+
+    assert result["resolved_inputs"] == {
+        "building_id": "bldg-medtech-hq",
+        "weather_event_id": "weather-heat-dome",
+        "pricing_event_id": "pricing-peak-surge",
+        "occupancy_id": "occupancy-business-critical",
+    }
+    assert result["plan"].primary_priority == EnergyPriority.safety
+
+
 def test_peak_pricing_on_normal_day_prioritizes_cost() -> None:
     service = EnergyOptimizationService(EnergyJsonRepository(default_data_dir()))
 

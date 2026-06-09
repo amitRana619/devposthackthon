@@ -4,6 +4,7 @@ from mcp.server.fastmcp import FastMCP
 
 from startup_ops_agent.tools import (
     build_energy_optimization_plan,
+    build_energy_plan_from_scenario,
     optimize_energy_agent_instruction,
     run_energy_simulation,
 )
@@ -25,6 +26,12 @@ def energy_optimization_plan(
         pricing_event_id=pricing_event_id,
         occupancy_id=occupancy_id,
     )
+
+
+@mcp.tool()
+def energy_scenario_plan(scenario: str) -> dict:
+    """Resolve a natural-language energy operations scenario and return a plan."""
+    return build_energy_plan_from_scenario(scenario=scenario)
 
 
 @mcp.tool()
